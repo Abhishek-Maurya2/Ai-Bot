@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import Dashboard from "./Pages/Dashboard";
 import LandingPage from "./Pages/LandingPage";
@@ -8,14 +8,14 @@ import Signup from "./Pages/Signup";
 import { useAuth } from "./context/AuthContext";
 
 function App() {
-  console.log(useAuth().isLoggedIn);
+  const { isLoggedIn } = useAuth();
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
     </Routes>
   );
 }

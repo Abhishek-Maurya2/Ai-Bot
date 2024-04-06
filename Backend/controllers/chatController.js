@@ -1,34 +1,33 @@
 const User = require("../models/User.js");
-const model = require("../config/Gemini-config.js");
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const generateChatCompletion = async (req, res, next) => {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   try {
-    const { message } = req.body;
+    const message = req.body.message;
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
       return res
         .status(401)
         .json({ message: "User not registered OR Token malfunctioned" });
     }
-    const chats = user.chats.map(({ role, content }) => ({
-      role,
-      content,
+
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const completeion = response.text();
+
+    const chats = user.chats.map(({ query, response, id }) => ({
+      query,
+      response,
+      id,
     }));
-    chats.push({ content: message, role: "user" });
-    user.chats.push({ content: message, role: "user" });
 
-    // check
-    console.log(chats);
+    chats.push({ query: message, response: completeion, id: new Date() });
+    user.chats.push({ query: message, response: completeion, id: new Date() });
+    console.log(user.chats);
 
-    const response = await model.generateContent(chats);
-
-    // check
-
-    console.log(response);
-
-
-    
-    user.chats.push(response);
     await user.save();
     return res.status(200).json({ chats: user.chats });
   } catch (error) {

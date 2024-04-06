@@ -8,7 +8,7 @@ import {
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 
-function SideNav() {
+function SideNav({ chat }) {
   const [sideBar, setSideBar] = useState(false);
   const handleSideBarToggle = () => {
     setSideBar(!sideBar);
@@ -53,6 +53,22 @@ function SideNav() {
           )}
         </motion.button>
       </div>
+
+      {/* history */}
+      {sideBar && (
+        <div className="max-h-[35vh] overflow-hidden overflow-y-auto w-full">
+          <div>
+            <p className="text-[24px] ml-2">History</p>
+          </div>
+
+          {chat.map((chat, index) => (
+            <p className="text-[14px] ml-2 p-1 text-gray-300 whitespace-nowrap overflow-hidden overflow-ellipsis rounded-full cursor-pointer hover:bg-zinc-500">
+              {chat.query}
+            </p>
+          ))}
+        </div>
+      )}
+
       <div className="flex flex-col gap-1">
         <motion.button
           className="flex items-center p-3 rounded-full text-xl hover:bg-zinc-600"

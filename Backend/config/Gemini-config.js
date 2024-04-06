@@ -6,4 +6,6 @@ const model = genAI.getGenerativeModel({
   model: "gemini-pro",
 });
 
+
+
 module.exports = model;

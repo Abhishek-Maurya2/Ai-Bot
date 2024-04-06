@@ -2,7 +2,11 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { sendChatRequest, getUserChats, deleteUserChats } from "../helpers/api-communicator";
+import {
+  sendChatRequest,
+  getUserChats,
+  deleteUserChats,
+} from "../helpers/api-communicator";
 
 export const chatHandler = () => {
   const navigate = useNavigate();
@@ -10,10 +14,10 @@ export const chatHandler = () => {
   const [chatMessages, setChatMessages] = useState([]);
 
   const auth = useAuth();
-  const handleChatSubmit = async (e, inputRef) => {
+  const handleChatSubmit = async (inputRef) => {
     const content = inputRef.current?.value;
 
-    console.log("Message Send : ", content);
+    // console.log("\nMessage in handler : ", content, "\n");
 
     if (inputRef && inputRef.current) {
       inputRef.current.value = "";
@@ -23,6 +27,7 @@ export const chatHandler = () => {
     const chatData = await sendChatRequest(content);
     setChatMessages([...chatData.chats]);
   };
+
   const handleDeleteChats = async () => {
     try {
       toast.loading("Deleting Chats", { id: "deletechats" });
@@ -42,6 +47,7 @@ export const chatHandler = () => {
         .then((data) => {
           setChatMessages([...data.chats]);
           toast.success("Successfully loaded chats", { id: "loadchats" });
+          // console.log("\nChats Loaded : \n", chatMessages, "\n");
         })
         .catch((err) => {
           console.log(err);

@@ -36,13 +36,8 @@ export const logoutUser = async () => {
   return data;
 };
 
-
-
-
-// 
-
-
 export const sendChatRequest = async (message) => {
+  // console.log("\nin API Communicator : ", message, "\n");
   const res = await axios.post("/chat/new", { message });
   if (res.status !== 200) {
     throw new Error("Unable to send chat");
@@ -50,6 +45,8 @@ export const sendChatRequest = async (message) => {
   const data = await res.data;
   return data;
 };
+
+//
 
 export const getUserChats = async () => {
   const res = await axios.get("/chat/all-chats");

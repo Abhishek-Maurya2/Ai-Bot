@@ -5,11 +5,11 @@ const ChatSchema = new mongoose.Schema({
     type: String,
     default: new Date().toISOString,
   },
-  role: {
+  query: {
     type: String,
     required: [true, "Role is required"],
   },
-  content: {
+  response: {
     type: String,
     required: [true, "Content is required"],
   },
