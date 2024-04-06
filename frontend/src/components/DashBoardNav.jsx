@@ -1,12 +1,10 @@
 import React from "react";
 import { FiSearch, FiUser } from "react-icons/fi";
-import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../Auth/LoginButton";
-import LogoutButton from "../Auth/LogoutButton";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function DashBoardNav() {
-  
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const auth = useAuth();
   return (
     <nav className="relative flex justify-between items-cente px-6 py-2 w-full text-white">
       <p className="text-2xl font-bold">Luna</p>
@@ -18,21 +16,34 @@ function DashBoardNav() {
         />
         <FiSearch />
       </div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : isAuthenticated ? (
-        <div className="flex items-center gap-2">
-          <img
-            src={user.picture}
-            alt={user.name}
-            className="w-8 h-8 rounded-full"
-          />
-          <p className="ml-2">{user.name}</p>
-          <LogoutButton />
-        </div>
-      ) : (
-        <LoginButton />
-      )}
+      <div className="flex gap-3">
+        {/* <FiUser /> */}
+        {auth.isLoggedIn ? (
+          <>
+            <button className="text-2xl">
+              <FiUser />
+            </button>
+            <button
+              onClick={() => {
+                auth.logout();
+              }}
+            >
+              <Link to="/" className="text-md font-light">
+                Logout
+              </Link>
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="text-md font-light">
+              Login
+            </Link>
+            <Link to="/signup" className="text-md font-light">
+              Signup
+            </Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 }

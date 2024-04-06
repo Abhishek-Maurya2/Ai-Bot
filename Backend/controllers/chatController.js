@@ -16,7 +16,18 @@ const generateChatCompletion = async (req, res, next) => {
     }));
     chats.push({ content: message, role: "user" });
     user.chats.push({ content: message, role: "user" });
+
+    // check
+    console.log(chats);
+
     const response = await model.generateContent(chats);
+
+    // check
+
+    console.log(response);
+
+
+    
     user.chats.push(response);
     await user.save();
     return res.status(200).json({ chats: user.chats });

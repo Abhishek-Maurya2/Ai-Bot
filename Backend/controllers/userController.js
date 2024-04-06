@@ -1,4 +1,8 @@
 const User = require("../models/User");
+const { hash, compare } = require("bcryptjs");
+const { createToken } = require("../utils/tokenManager");
+const COOKIE_NAME = require("../utils/constants");
+
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find();
@@ -19,6 +23,9 @@ const userSignup = async (req, res, next) => {
   try {
     //user signup
     const { name, email, password } = req.body;
+    console.log(
+      `DB : \nName: ${name} \nEmail: ${email} \nPassword: ${password}`
+    );
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(401).send("User already registered");
     const hashedPassword = await hash(password, 10);
@@ -32,6 +39,8 @@ const userSignup = async (req, res, next) => {
       signed: true,
       path: "/",
     });
+
+    console.log(`DB : \nUser: ${user}`);
 
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -57,7 +66,9 @@ const userLogin = async (req, res, next) => {
   try {
     //user login
     const { email, password } = req.body;
+    console.log(`DB : \nEmail: ${email} \nPassword: ${password}`);
     const user = await User.findOne({ email });
+    console.log(`DB : \nUser: ${user}`);
     if (!user) {
       return res.status(401).send("User not registered");
     }

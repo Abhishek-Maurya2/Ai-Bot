@@ -34,7 +34,10 @@ function Landing() {
         {["For public and private companies", "From first Pitch to IPO"].map(
           (text, index) => {
             return (
-              <p className="text-md font-light tracking-tight leading-none">
+              <p
+                key={index}
+                className="text-md font-light tracking-tight leading-none"
+              >
                 {text}
               </p>
             );

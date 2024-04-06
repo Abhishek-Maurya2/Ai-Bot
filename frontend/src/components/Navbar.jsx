@@ -1,11 +1,10 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../Auth/LoginButton";
-import LogoutButton from "../Auth/LogoutButton";
+import Dashboard from "./../Pages/Dashboard";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-
+  const auth = useAuth();
   return (
     <div className="fixed z-[999] w-full px-20 py-6 flex justify-between items-center backdrop-blur-sm">
       <div className="logo">
@@ -19,20 +18,34 @@ function Navbar() {
             {link}
           </a>
         ))}
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : isAuthenticated ? (
-          <div className="flex items-center gap-2">
-            <img
-              src={user.picture}
-              alt={user.name}
-              className="w-8 h-8 rounded-full"
-            />
-            <p className="ml-2">{user.name}</p>
-            <LogoutButton />
-          </div>
+        {/* <Link to="/login" className="text-md font-light">
+          Login
+        </Link> */}
+        {auth.isLoggedIn ? (
+          <>
+            <Link to="/dashboard" className="text-md font-light">
+              DashBoard
+            </Link>
+
+            <button
+              onClick={() => {
+                auth.logout();
+              }}
+            >
+              <Link to="/" className="text-md font-light">
+                Logout
+              </Link>
+            </button>
+          </>
         ) : (
-          <LoginButton />
+          <>
+            <Link to="/login" className="text-md font-light">
+              Login
+            </Link>
+            <Link to="/signup" className="text-md font-light">
+              Signup
+            </Link>
+          </>
         )}
       </div>
     </div>

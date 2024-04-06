@@ -1,18 +1,23 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
-import { Auth0Provider } from "@auth0/auth0-react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
+import { AuthProvider } from "./context/AuthContext";
 
-const root = createRoot(document.getElementById("root"));
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
-root.render(
-  <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-    redirectUri={window.location.origin}
-  >
-    <App />
-  </Auth0Provider>,
-  document.getElementById("root")
+axios.defaults.baseURL = "http://localhost:5000/api/v1";
+axios.defaults.withCredentials = true;
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <AuthProvider>
+      <BrowserRouter>
+        <Toaster />
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
+  </React.StrictMode>
 );

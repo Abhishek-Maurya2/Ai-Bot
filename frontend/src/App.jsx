@@ -1,22 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Route, Routes } from "react-router-dom";
+
 import Dashboard from "./Pages/Dashboard";
 import LandingPage from "./Pages/LandingPage";
-import Auth0CallbackHandler from "./Auth/Auth0CallbackHandler";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
-  const { isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  console.log(useAuth().isLoggedIn);
 
   return (
-    <Router>
-      <Route path="/callback" component={Auth0CallbackHandler} />
-      {isAuthenticated ? <Dashboard /> : <LandingPage />}
-    </Router>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
 }
 

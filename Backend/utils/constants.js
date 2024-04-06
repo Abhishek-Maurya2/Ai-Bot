@@ -1,3 +1,3 @@
-const COOKIE_NAME = "auth_token";
+const COOKIE_NAME = "auth-token";
 
 module.exports = COOKIE_NAME;
