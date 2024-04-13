@@ -1,31 +1,38 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import {
   sendChatRequest,
   getUserChats,
   deleteUserChats,
 } from "../helpers/api-communicator";
+import { ChatContext } from "./ChatProvider";
 
 export const chatHandler = () => {
-  const navigate = useNavigate();
-
-  const [chatMessages, setChatMessages] = useState([]);
+  const { chatMessages, setChatMessages } = useContext(ChatContext);
 
   const auth = useAuth();
+  
   const handleChatSubmit = async (inputRef) => {
     const content = inputRef.current?.value;
-
-    // console.log("\nMessage in handler : ", content, "\n");
 
     if (inputRef && inputRef.current) {
       inputRef.current.value = "";
     }
     const newMessage = { role: "user", content };
-    setChatMessages((prev) => [...prev, newMessage]);
-    const chatData = await sendChatRequest(content);
-    setChatMessages([...chatData.chats]);
+    // setChatMessages((prev) => [...prev, newMessage]);
+
+    try {
+      await sendChatRequest(content).then((chatData) => {
+        // setChatMessages((prev) => [...prev, ...chatData.chats]);
+        getUserChats().then((data) => {
+          setChatMessages([...data.chats])
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to send or recive chat");
+    }
   };
 
   const handleDeleteChats = async () => {
@@ -40,25 +47,18 @@ export const chatHandler = () => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
       getUserChats()
         .then((data) => {
           setChatMessages([...data.chats]);
           toast.success("Successfully loaded chats", { id: "loadchats" });
-          // console.log("\nChats Loaded : \n", chatMessages, "\n");
         })
         .catch((err) => {
           console.log(err);
           toast.error("Loading Failed", { id: "loadchats" });
         });
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    if (!auth?.user) {
-      return navigate("/login");
     }
   }, [auth]);
 

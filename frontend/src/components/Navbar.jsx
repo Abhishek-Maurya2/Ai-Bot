@@ -6,24 +6,31 @@ import { useAuth } from "../context/AuthContext";
 function Navbar() {
   const auth = useAuth();
   return (
-    <div className="fixed z-[999] w-full px-20 py-6 flex justify-between items-center backdrop-blur-sm">
+    <div className="fixed z-[999] w-full px-4 sm:px-20 py-6 flex justify-between items-center backdrop-blur-sm">
       <div className="logo">
-        <a className="text-[25px] font-semibold" href="#">
-          Ochi
+        <a
+          className="text-[18px] sm:text-[25px] font-semibold text-nowrap"
+          href="#"
+        >
+          Luna Ai
         </a>
       </div>
-      <div className="links flex gap-10">
-        {["Home", "About", "Services", "Contact"].map((link, index) => (
-          <a key={index} href="#" className="text-md font-light">
+      <div className="links flex gap-0 sm:gap-2">
+        {[""].map((link, index) => (
+          <a
+            key={index}
+            href="#"
+            className="text-md font-light px-2 sm:px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white"
+          >
             {link}
           </a>
         ))}
-        {/* <Link to="/login" className="text-md font-light">
-          Login
-        </Link> */}
         {auth.isLoggedIn ? (
           <>
-            <Link to="/dashboard" className="text-md font-light">
+            <Link
+              to="/dashboard"
+              className="text-md font-light px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white"
+            >
               DashBoard
             </Link>
 
@@ -32,17 +39,20 @@ function Navbar() {
                 auth.logout();
               }}
             >
-              <Link to="/" className="text-md font-light">
+              <Link
+                to="/"
+                className="text-md font-light px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white"
+              >
                 Logout
               </Link>
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="text-md font-light">
+            <Link to="/login" className="text-md font-light px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white">
               Login
             </Link>
-            <Link to="/signup" className="text-md font-light">
+            <Link to="/signup" className="text-md font-light px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white">
               Signup
             </Link>
           </>

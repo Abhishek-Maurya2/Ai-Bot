@@ -7,8 +7,15 @@ import {
   FiSettings,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { chatHandler } from "../handler/chatHandler";
+import "./dash.css";
 
 function SideNav({ chat }) {
+  const { handleDeleteChats } = chatHandler();
+  const handleDelete = async () => {
+    handleDeleteChats();
+  };
+
   const [sideBar, setSideBar] = useState(false);
   const handleSideBarToggle = () => {
     setSideBar(!sideBar);
@@ -31,7 +38,7 @@ function SideNav({ chat }) {
   };
   return (
     <motion.div
-      className="flex flex-col items-start justify-between bg-zinc-800 p-2 text-white"
+      className=" flex flex-col items-start justify-between bg-zinc-800 p-2 text-white"
       animate={sideBar ? "open" : "closed"}
       variants={variants}
     >
@@ -74,6 +81,7 @@ function SideNav({ chat }) {
           className="flex items-center p-3 rounded-full text-xl hover:bg-zinc-600"
           animate={sideBar ? "open" : "closed"}
           variants={translateY}
+          onClick={handleDelete}
         >
           <FiRotateCcw />
           {sideBar && (
@@ -82,7 +90,7 @@ function SideNav({ chat }) {
               animate={sideBar ? "open" : "closed"}
               variants={fadeIn}
             >
-              History
+              Clear History
             </motion.p>
           )}
         </motion.button>

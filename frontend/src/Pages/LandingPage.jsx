@@ -13,7 +13,7 @@ function LandingPage() {
       <Landing />
       <Marque />
       <About />
-      <Eyes />
+      {/* <Eyes /> */}
     </div>
   );
 }

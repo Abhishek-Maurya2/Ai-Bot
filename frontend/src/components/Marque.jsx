@@ -11,7 +11,7 @@ function Marque() {
       <div className="border-t-[1px] border-b-[1px] border-[#c6f0ea60]">
         <marquee behavior="scroll" direction="left" scrollamount="15">
           <h1 className="text-[19vw] leading-none uppercase font-semibold text-white">
-            We are Ochi We are ochi
+            We are Luna We are Luna We are Luna We are Luna We are Luna We are Luna
           </h1>
         </marquee>
       </div>

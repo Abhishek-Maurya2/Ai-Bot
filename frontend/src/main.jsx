@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
+import { ChatProvider } from "./handler/ChatProvider";
 
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
@@ -14,10 +15,12 @@ axios.defaults.withCredentials = true;
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Toaster />
-        <App />
-      </BrowserRouter>
+      <ChatProvider>
+        <BrowserRouter>
+          <Toaster />
+          <App />
+        </BrowserRouter>
+      </ChatProvider>
     </AuthProvider>
   </React.StrictMode>
 );
