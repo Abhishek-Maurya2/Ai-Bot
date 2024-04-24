@@ -1,27 +1,45 @@
 import React, { useState } from "react";
-import {
-  FiClipboard,
-  FiDelete,
-  FiEdit,
-  FiMoreVertical,
-  FiThumbsDown,
-  FiThumbsUp,
-} from "react-icons/fi";
+import { FiClipboard, FiShare2, FiThumbsUp } from "react-icons/fi";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import toast from "react-hot-toast";
+import "./dash.css";
+import Tooltip from "./Tooltip";
 
 function ChatBubble({ chat }) {
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
   const [like, setLike] = useState(false);
   const isLike = () => {
     setLike(!like);
   };
-
   const extractCode = (message) => {
     if (message.includes("```")) {
       const blocks = message.split("```");
       return blocks;
     }
   };
+
+  const copyToClipboard = (text) => {
+    return () => {
+      navigator.clipboard.writeText(text);
+      toast.success("Copied to clipboard");
+    };
+  };
+
+  const share = (text) => {
+    return () => {
+      navigator.share({ text });
+    };
+  };
+
+  const verifyResponse = (query) => {
+    return () => {
+      const url = `https://www.google.com/search?q=${query}`;
+      window.open(url, "_blank");
+    };
+  };
+
   const isCodeBlock = (str) => {
     if (
       str.includes("=") ||
@@ -80,30 +98,33 @@ function ChatBubble({ chat }) {
       }
     });
   };
+  const codeBlocks = extractCode(chat.response);
 
   return (
     <div className="text-white flex items-center justify-center pb-12">
       <div className="flex flex-col lg:w-[60vw] md:w-[65vw] sm:w-[85vw] w-[85vw]">
-        <div className="flex gap-6 items-center bg-zinc-800 rounded-xl rounded-b-none py-4 px-4 border-[1px] border-gray-600">
+        {/* query */}
+        <div className="flex flex-col sm:flex-row-reverse gap-6 items-end sm:items-center py-4 px-4">
           <img
             src="https://source.unsplash.com/random/40x40"
             alt="avatar"
             className="rounded-full"
           />
-          <p>{chat.query}</p>
+          <p className="border-r-2 p-2">{chat.query}</p>
         </div>
-        <div className="flex gap-6 items-start bg-zinc-900 rounded-xl rounded-t-none py-6 px-4 border-[1px] border-gray-600 border-t-0">
+        {/* response */}
+        <div className="flex flex-col sm:flex-row gap-6 items-startpy-6 px-4">
           <img
-            src="https://source.unsplash.com/random/40x40"
+            src="src/assets/ai.png"
             alt="avatar"
-            className="rounded-full"
+            className="rounded-full max-w-6 max-h-6"
           />
           {/* <p>{chat.response}</p> */}
           {/* <p
             dangerouslySetInnerHTML={{ __html: formatMarkdown(chat.response) }}
           /> */}
 
-          {/* <div>
+          <div className="border-l-2 p-2">
             {codeBlocks ? (
               processBlocks(codeBlocks)
             ) : (
@@ -113,35 +134,51 @@ function ChatBubble({ chat }) {
                 }}
               />
             )}
-          </div> */}
-          <p>{chat.response}</p>
+          </div>
+          {/* <p>{chat.response}</p> */}
         </div>
         {/* options */}
-        <div className="flex gap-4 p-4">
-          <button
-            onClick={isLike}
-            className="flex gap-2  items-center text-white bg-zinc-800 px-4 py-2 rounded-full hover:bg-zinc-700"
-          >
-            {like ? (
-              <div className="text-red-600">
+        <div className="flex gap-4 p-4 m-0 sm:ml-14">
+          <Tooltip tooltipText="Like">
+            <button onClick={isLike} className="text-white text-xl p-2">
+              {like ? (
+                <div className="text-red-600">
+                  <FiThumbsUp />
+                </div>
+              ) : (
                 <FiThumbsUp />
-              </div>
-            ) : (
-              <FiThumbsUp />
-            )}
-          </button>
-          <button className="flex gap-2  items-center text-white bg-zinc-800 px-4 py-2 rounded-full hover:bg-zinc-700">
-            <FiThumbsDown />
-          </button>
-          <button className="flex gap-2  items-center text-white bg-zinc-800 px-4 py-2 rounded-full hover:bg-zinc-700">
-            Copy
-            <FiClipboard />
-          </button>
+              )}
+            </button>
+          </Tooltip>
 
-          <button className="flex gap-2  items-center text-white bg-zinc-800 px-4 py-2 rounded-full hover:bg-zinc-700">
-            <FiDelete />
-            Delete
-          </button>
+          <Tooltip tooltipText="Copy to clipboard">
+            <button
+              onClick={copyToClipboard(chat.response)}
+              className="text-white text-xl p-2"
+            >
+              <FiClipboard />
+            </button>
+          </Tooltip>
+          <Tooltip tooltipText="Share">
+            <button
+              className="text-white text-xl p-2"
+              onClick={share(chat.response)}
+            >
+              <FiShare2 />
+            </button>
+          </Tooltip>
+          <Tooltip tooltipText="Verify Response">
+            <button
+              className="bg-zinc-800 rounded-lg p-2 hover:bg-zinc-700"
+              onClick={verifyResponse(chat.query)}
+            >
+              <img
+                src="src/assets/google.png"
+                alt=""
+                className="max-w-5 max-h-5"
+              />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>

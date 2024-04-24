@@ -6,7 +6,7 @@ import ChatBubble from "../components/ChatBubble";
 import { chatHandler } from "../handler/chatHandler";
 import { ChatContext } from "../handler/ChatProvider";
 import "../components/dash.css";
-
+import Intro from "../components/Intro";
 
 function Dashboard() {
   // const { chatMessages } = chatHandler();
@@ -29,9 +29,14 @@ function Dashboard() {
         <DashBoardNav chat={chatMessages} />
         {/* gemini responses */}
         <div className="flex flex-col overflow-auto gap-4 p-4 h-screen">
-          {chatMessages.map((chat, index) => (
-            <ChatBubble key={index} chat={chat} />
-          ))}
+          {chatMessages.length === 0 ? (
+            <Intro />
+          ) : (
+            chatMessages.map((chat, index) => (
+              <ChatBubble key={index} chat={chat} />
+            ))
+          )}
+
           <div className="h-[20vh] w-[2vw]"></div>
           <div ref={messagesEndRef} />
           {/* empty space so that only latest chat is visible */}

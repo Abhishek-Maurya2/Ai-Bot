@@ -10,10 +10,12 @@ import { ChatContext } from "./ChatProvider";
 
 export const chatHandler = () => {
   const { chatMessages, setChatMessages } = useContext(ChatContext);
+  const { loading, setLoading } = useContext(ChatContext);
 
   const auth = useAuth();
-  
+
   const handleChatSubmit = async (inputRef) => {
+    setLoading(true);
     const content = inputRef.current?.value;
 
     if (inputRef && inputRef.current) {
@@ -26,16 +28,18 @@ export const chatHandler = () => {
       await sendChatRequest(content).then((chatData) => {
         // setChatMessages((prev) => [...prev, ...chatData.chats]);
         getUserChats().then((data) => {
-          setChatMessages([...data.chats])
+          setChatMessages([...data.chats]);
         });
       });
     } catch (error) {
       console.log(error);
       toast.error("Failed to send or recive chat");
     }
+    setLoading(false);
   };
 
   const handleDeleteChats = async () => {
+    setLoading(true);
     try {
       toast.loading("Deleting Chats", { id: "deletechats" });
       await deleteUserChats();
@@ -45,6 +49,7 @@ export const chatHandler = () => {
       console.log(error);
       toast.error("Deleting chats failed", { id: "deletechats" });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -62,5 +67,11 @@ export const chatHandler = () => {
     }
   }, [auth]);
 
-  return { handleChatSubmit, chatMessages, handleDeleteChats };
+  return {
+    handleChatSubmit,
+    chatMessages,
+    handleDeleteChats,
+    loading,
+    setLoading,
+  };
 };

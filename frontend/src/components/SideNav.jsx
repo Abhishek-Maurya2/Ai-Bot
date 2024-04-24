@@ -53,6 +53,7 @@ function SideNav({ chat }) {
           className="flex items-center p-3 mt-10 rounded-full text-xl bg-zinc-900 hover:bg-zinc-700"
           animate={sideBar ? "open" : "closed"}
           variants={buttonVariants}
+          onClick={handleDelete}
         >
           <FiPlus />
           {sideBar && (
@@ -98,6 +99,10 @@ function SideNav({ chat }) {
           className="flex items-center p-3 rounded-full text-xl hover:bg-zinc-600"
           animate={sideBar ? "open" : "closed"}
           variants={translateY}
+          onClick={window.open.bind(
+            null,
+            "https://ai.google.dev/gemini-api/docs"
+          )}
         >
           <FiHelpCircle />
           {sideBar && <p className="text-[14px] ml-2">Help</p>}

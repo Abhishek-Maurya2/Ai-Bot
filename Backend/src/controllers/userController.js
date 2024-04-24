@@ -23,9 +23,9 @@ const userSignup = async (req, res, next) => {
   try {
     //user signup
     const { name, email, password } = req.body;
-    console.log(
-      `DB : \nName: ${name} \nEmail: ${email} \nPassword: ${password}`
-    );
+    // console.log(
+    //   `DB : \nName: ${name} \nEmail: ${email} \nPassword: ${password}`
+    // );
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(401).send("User already registered");
     const hashedPassword = await hash(password, 10);

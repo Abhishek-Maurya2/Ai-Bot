@@ -4,8 +4,6 @@ const appRouter = require("./routes");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-
-
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -18,6 +16,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 //remove in production
 app.use(morgan("dev"));
 
-app.use("/api/v1", appRouter);  //domain/api/v1/
+app.use("/api/v1", appRouter); //domain/api/v1/
 
 module.exports = app;

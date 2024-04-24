@@ -10,8 +10,8 @@ function Landing() {
       data-scroll-speed="-.2"
       className="w-full h-screen bg-zinc-900 pt-1"
     >
-      <div className="textstructure mt-40 px-20">
-        {["we care", "for your", "Mental Health"].map((text, index) => {
+      <div className="textstructure mt-40 px-[10vw] sm:px-20">
+        {["Try Next", "Generation", "of ChatBots"].map((text, index) => {
           return (
             <div key={index} className="masker">
               <div className="flex items-center">
@@ -32,23 +32,27 @@ function Landing() {
         })}
       </div>
       <div className="flex justify-between items-center px-20 py-5 border-t-[1px] border-zinc-600 mt-32">
-        {["For students and Adults", ""].map(
-          (text, index) => {
-            return (
-              <p
-                key={index}
-                className="text-md font-light tracking-tight leading-none"
-              >
-                {text}
-              </p>
-            );
-          }
-        )}
+        {["For Students and Corporates", ""].map((text, index) => {
+          return (
+            <p
+              key={index}
+              className="text-md font-light tracking-tight leading-none"
+            >
+              {text}
+            </p>
+          );
+        })}
         <div className="flex items-center start">
-          <Link to="/login" className="border-2 border-zinc-400 rounded-full px-4 py-2">
+          <Link
+            to="/login"
+            className="border-2 border-zinc-400 rounded-full px-4 py-2"
+          >
             Get Started
           </Link>
-          <Link to="/login" className="arrowIcon border-2 border-zinc-400 rounded-full p-3 ml-2 rotate-[45deg]">
+          <Link
+            to="/login"
+            className="arrowIcon border-2 border-zinc-400 rounded-full p-3 ml-2 rotate-[45deg]"
+          >
             <FaArrowUp />
           </Link>
         </div>

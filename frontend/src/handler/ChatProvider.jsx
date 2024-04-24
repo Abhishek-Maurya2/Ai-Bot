@@ -4,24 +4,13 @@ export const ChatContext = createContext(null);
 
 export const ChatProvider = ({ children }) => {
   const [chatMessages, setChatMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   return (
-    <ChatContext.Provider value={{ chatMessages, setChatMessages }}>
+    <ChatContext.Provider value={{ chatMessages, setChatMessages, loading, setLoading }}>
       {children}
     </ChatContext.Provider>
   );
 };
 
-export const ModalProvider = ({ children }) => {
-  const [modal, setModal] = useState(false);
 
-  const handleModal = () => {
-    setModal(!modal);
-  };
-
-  return (
-    <ChatContext.Provider value={{ modal, handleModal }}>
-      {children}
-    </ChatContext.Provider>
-  );
-}
