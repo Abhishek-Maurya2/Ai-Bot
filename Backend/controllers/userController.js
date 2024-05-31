@@ -99,7 +99,7 @@ const userLogin = async (req, res, next) => {
 
     return res
       .status(200)
-      .json({ message: "OK", name: user.name, email: user.email, token: token, cookie: res.cookie});
+      .json({ message: "OK", name: user.name, email: user.email, token: token, cookie: COOKIE_NAME});
   } catch (error) {
     // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
