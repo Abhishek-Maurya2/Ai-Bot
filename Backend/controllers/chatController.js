@@ -15,7 +15,7 @@ const generateChatCompletion = async (req, res, next) => {
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const prompt =
-      "Act as a mental health expert and your answer should be empathetic and understanding.";
+      "";
     const result = await model.generateContent(prompt + message);
     const response = await result.response;
     const completeion = response.text();
