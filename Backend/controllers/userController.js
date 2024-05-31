@@ -38,6 +38,7 @@ const userSignup = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
+      domain: ".vercel.app",
     });
 
     // console.log(`DB : \nUser: ${user}`);
@@ -47,7 +48,7 @@ const userSignup = async (req, res, next) => {
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: ".vercel.app",
       expires,
       httpOnly: true,
       signed: true,
@@ -84,6 +85,7 @@ const userLogin = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
+      domain: ".vercel.app",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -95,6 +97,7 @@ const userLogin = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       secure: true,
+      domain: ".vercel.app",
     });
 
     return res
@@ -140,6 +143,7 @@ const userLogout = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
+      domain: ".vercel.app",
     });
 
     return res
