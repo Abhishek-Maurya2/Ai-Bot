@@ -28,12 +28,12 @@ const generateChatCompletion = async (req, res, next) => {
 
     chats.push({ query: message, response: completeion, id: new Date() });
     user.chats.push({ query: message, response: completeion, id: new Date() });
-    console.log(user.chats);
+    // console.log(user.chats);
 
     await user.save();
     return res.status(200).json({ chats: user.chats });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -50,7 +50,7 @@ const sendChatsToUser = async (req, res, next) => {
     }
     return res.status(200).json({ message: "OK", chats: user.chats });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -70,7 +70,7 @@ const deleteChats = async (req, res, next) => {
     await user.save();
     return res.status(200).json({ message: "OK" });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };

@@ -11,7 +11,7 @@ const getAllUsers = async (req, res, next) => {
       users,
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return res.status(404).json({
       message: "fail",
       cause: err.message,
@@ -40,7 +40,7 @@ const userSignup = async (req, res, next) => {
       path: "/",
     });
 
-    console.log(`DB : \nUser: ${user}`);
+    // console.log(`DB : \nUser: ${user}`);
 
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -57,7 +57,7 @@ const userSignup = async (req, res, next) => {
       .status(201)
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -66,9 +66,9 @@ const userLogin = async (req, res, next) => {
   try {
     //user login
     const { email, password } = req.body;
-    console.log(`DB : \nEmail: ${email} \nPassword: ${password}`);
+    // console.log(`DB : \nEmail: ${email} \nPassword: ${password}`);
     const user = await User.findOne({ email });
-    console.log(`DB : \nUser: ${user}`);
+    // console.log(`DB : \nUser: ${user}`);
     if (!user) {
       return res.status(401).send("User not registered");
     }
@@ -101,7 +101,7 @@ const userLogin = async (req, res, next) => {
       .status(200)
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -120,7 +120,7 @@ const verifyUser = async (req, res, next) => {
       .status(200)
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -147,7 +147,7 @@ const userLogout = async (req, res, next) => {
       .status(200)
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
