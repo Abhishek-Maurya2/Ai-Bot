@@ -9,7 +9,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(
+  cors({ origin: "https://ai-bot-frontend-ten.vercel.app/", credentials: true })
+);
 
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
