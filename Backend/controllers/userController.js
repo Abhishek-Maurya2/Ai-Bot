@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { hash, compare } = require("bcryptjs");
 const { createToken } = require("../utils/tokenManager");
 const COOKIE_NAME = require("../utils/constants");
+const { cookie } = require("express-validator");
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -50,6 +51,7 @@ const userSignup = async (req, res, next) => {
       expires,
       httpOnly: true,
       signed: true,
+      secure: true,
     });
 
     return res
@@ -92,11 +94,12 @@ const userLogin = async (req, res, next) => {
       expires,
       httpOnly: true,
       signed: true,
+      secure: true,
     });
 
     return res
       .status(200)
-      .json({ message: "OK", name: user.name, email: user.email });
+      .json({ message: "OK", name: user.name, email: user.email, token: token, cookie: res.cookie});
   } catch (error) {
     // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
