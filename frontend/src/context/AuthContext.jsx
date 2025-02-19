@@ -25,10 +25,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-
     const data = await loginUser(email, password);
     if (data) {
-      setUser({ email: data.email, name: data.name });
+      setUser({ email: data.email, name: data.name, profilePic: data.profilePic });
       setIsLoggedIn(true);
       // transfer to the previous page
       window.history.back();
@@ -39,10 +38,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsLoggedIn(false);
   };
-  const signup = async (name, email, password) => {
-    const data = await signupUser(name, email, password);
+  const signup = async (name, email, password, profilePic) => {
+    const data = await signupUser(name, email, password, profilePic);
     if (data) {
-      setUser({ email: data.email, name: data.name });
+      setUser({ email: data.email, name: data.name, profilePic: data.profilePic });
       setIsLoggedIn(true);
     }
   };

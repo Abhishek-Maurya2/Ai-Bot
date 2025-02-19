@@ -15,7 +15,6 @@ function Login() {
     const formData = new FormData(formRef.current);
     const email = formData.get("email");
     const password = formData.get("password");
-    await console.log("Data : ", email, password);
 
     try {
       toast.loading("Logging in...", { id: "login" });
@@ -34,9 +33,8 @@ function Login() {
           <img
             src="src/assets/ai.png"
             alt="login"
-            className={`rounded-full h-24 w-24 mb-2 ${
-              spinner ? "animate-spin" : ""
-            }`}
+            className={`rounded-full h-24 w-24 mb-2 ${spinner ? "animate-spin" : ""
+              }`}
           />
           <p className="text-2xl">Login</p>
           <p>Sign in to your account</p>

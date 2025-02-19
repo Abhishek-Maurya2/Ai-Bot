@@ -22,15 +22,14 @@ export const chatHandler = () => {
       inputRef.current.value = "";
     }
     const newMessage = { role: "user", content };
-    // setChatMessages((prev) => [...prev, newMessage]);
-
+    
     try {
-      await sendChatRequest(content).then((chatData) => {
-        // setChatMessages((prev) => [...prev, ...chatData.chats]);
-        getUserChats().then((data) => {
-          setChatMessages([...data.chats]);
-        });
-      });
+      const res = await sendChatRequest(content);
+      setChatMessages((prev) => [...prev, ...res.chats]);
+      getUserChats().then((data) => {
+        setChatMessages([...data.chats]);
+      }
+      );
     } catch (error) {
       console.log(error);
       toast.error("Failed to send or recive chat");

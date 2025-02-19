@@ -1,5 +1,5 @@
 const express = require("express");
-// const morgan = require("morgan");
+const morgan = require("morgan");
 const appRouter = require("./routes");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -10,14 +10,17 @@ dotenv.config();
 const app = express();
 
 app.use(
-  cors({ origin: "https://ai-bot-frontend-ten.vercel.app", credentials: true })
+  cors({
+    origin: process.env.URL,
+    credentials: true,
+  })
 );
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //remove in production
-// app.use(morgan("dev"));
+app.use(morgan("dev"));
 
 app.use("/api/v1", appRouter); //domain/api/v1/
 

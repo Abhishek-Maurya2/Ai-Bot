@@ -15,7 +15,6 @@ const ChatSchema = new mongoose.Schema({
   },
 });
 
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -30,7 +29,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  chats: [ChatSchema]
+  profilePic: {
+    type: String,
+    default:
+      "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-profile-user-icon.png",
+  },
+  chats: [ChatSchema],
 });
 
 module.exports = mongoose.model("User", UserSchema);

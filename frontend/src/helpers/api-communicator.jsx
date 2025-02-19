@@ -9,8 +9,8 @@ export const loginUser = async (email, password) => {
   return data;
 };
 
-export const signupUser = async (name, email, password) => {
-  const res = await axios.post("/user/signup", { name, email, password });
+export const signupUser = async (name, email, password, profilePic) => {
+  const res = await axios.post("/user/signup", { name, email, password, profilePic });
   if (res.status !== 201) {
     throw new Error("Unable to signup");
   }
@@ -37,7 +37,7 @@ export const logoutUser = async () => {
 };
 
 export const sendChatRequest = async (message) => {
-  // console.log("\nin API Communicator : ", message, "\n");
+  console.log("\nin API Communicator : ", message, "\n");
   const res = await axios.post("/chat/new", { message });
   if (res.status !== 200) {
     throw new Error("Unable to send chat");

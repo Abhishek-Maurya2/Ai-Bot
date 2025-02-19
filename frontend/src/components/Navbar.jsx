@@ -16,15 +16,6 @@ function Navbar() {
         </a>
       </div>
       <div className="links flex gap-0 sm:gap-2">
-        {[""].map((link, index) => (
-          <a
-            key={index}
-            href="#"
-            className="text-md font-light px-2 sm:px-2 sm:px-4 py-1 rounded-3xl border-zinc-900 border-2 hover:border-white"
-          >
-            {link}
-          </a>
-        ))}
         {auth.isLoggedIn ? (
           <>
             <Link

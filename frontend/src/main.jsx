@@ -9,7 +9,7 @@ import { ChatProvider } from "./handler/ChatProvider";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
-axios.defaults.baseURL = "https://ai-bot-backend-gamma.vercel.app/api/v1";
+axios.defaults.baseURL = `${import.meta.env.VITE_URL}/api/v1`;
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")).render(

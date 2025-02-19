@@ -20,17 +20,19 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const userSignup = async (req, res, next) => {
+const userSignup = async (req, res, next) => {``
   try {
-    //user signup
-    const { name, email, password } = req.body;
-    // console.log(
-    //   `DB : \nName: ${name} \nEmail: ${email} \nPassword: ${password}`
-    // );
+    const { name, email, password, profilePic } = req.body;
+
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(401).send("User already registered");
     const hashedPassword = await hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword });
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      profilePic: profilePic,
+    });
     await user.save();
 
     // create token and store cookie
@@ -38,7 +40,6 @@ const userSignup = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
-      domain: ".vercel.app",
     });
 
     // console.log(`DB : \nUser: ${user}`);
@@ -48,18 +49,20 @@ const userSignup = async (req, res, next) => {
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: ".vercel.app",
       expires,
       httpOnly: true,
       signed: true,
       secure: true,
     });
 
-    return res
-      .status(201)
-      .json({ message: "OK", name: user.name, email: user.email });
+    return res.status(201).json({
+      message: "OK",
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -85,7 +88,6 @@ const userLogin = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
-      domain: ".vercel.app",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -97,12 +99,16 @@ const userLogin = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       secure: true,
-      domain: ".vercel.app",
     });
 
-    return res
-      .status(200)
-      .json({ message: "OK", name: user.name, email: user.email, token: token, cookie: COOKIE_NAME});
+    return res.status(200).json({
+      message: "OK",
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic,
+      token: token,
+      cookie: COOKIE_NAME,
+    });
   } catch (error) {
     // console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
@@ -123,7 +129,7 @@ const verifyUser = async (req, res, next) => {
       .status(200)
       .json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
-    // console.log(error);
+    console.log("Verify User: ", error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
@@ -143,7 +149,6 @@ const userLogout = async (req, res, next) => {
       httpOnly: true,
       signed: true,
       path: "/",
-      domain: ".vercel.app",
     });
 
     return res

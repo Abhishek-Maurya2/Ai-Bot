@@ -1,31 +1,39 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
 function Signup() {
   const auth = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [spinner, setSpinner] = useState(false);
-  const [profilePic, setProfilePic] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    profilePic: "",
+  });
+  const navigation = useNavigate();
+
+  const setImage = (image) => {
+    // get the image file and set it to formData
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setFormData({ ...formData, profilePic: e.target.result });
+    }
+    reader.readAsDataURL(image);
+  }
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setSpinner(true);
 
-    const emails = String(email);
-    const passwords = String(password);
-    const names = String(name);
-
-    console.log("Signup : " + emails + " : " + passwords + " : " + names);
-
     try {
       toast.loading("Signing up...", { id: "signup" });
-      await auth?.signup(names, emails, passwords);
+      console.log("FormData: ", formData);
+      await auth?.signup(formData.name, formData.email, formData.password, formData.profilePic);
       toast.success("Signed up successfully", { id: "signup" });
-      window.location.href = "/";
+      // window.location.href = "/";
+      navigation("/");
     } catch (error) {
       setSpinner(false);
       toast.error("Unable to signup", { id: "signup" });
@@ -40,9 +48,8 @@ function Signup() {
           <img
             src="src/assets/ai.png"
             alt="login"
-            className={`rounded-full h-24 w-24 mb-2 ${
-              spinner ? "animate-spin" : ""
-            }`}
+            className={`rounded-full h-24 w-24 mb-2 ${spinner ? "animate-spin" : ""
+              }`}
           />
           <p className="text-2xl">SignUp</p>
           <p>Create a new Account</p>
@@ -50,9 +57,9 @@ function Signup() {
         </div>
         <form onSubmit={handleSignup} className="flex flex-col items-start">
           <label className="flex items-center justify-center custom-file-upload bg-[#777777] rounded-full overflow-hidden h-20 w-20">
-            {profilePic && (
+            {formData.profilePic && (
               <img
-                src={URL.createObjectURL(profilePic)}
+                src={formData.profilePic}
                 className="w-[100%] h-[100%] object-cover"
               />
             )}
@@ -60,9 +67,10 @@ function Signup() {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => setProfilePic(e.target.files[0])}
+              // set uri of image to formData
+              onChange={(e) => setImage(e.target.files[0])}
             />
-            {!profilePic && <p>Avatar</p>}
+            {!formData.profilePic && <p>Avatar</p>}
           </label>
           <label for="name">Full Name</label>
           <input
@@ -70,8 +78,8 @@ function Signup() {
             id="name"
             name="name"
             placeholder="Enter your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
             className="rounded-lg border-2 border-grey p-2 my-2"
           />
@@ -81,8 +89,8 @@ function Signup() {
             id="email"
             name="email"
             placeholder="Enter your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
             className="rounded-lg border-2 border-grey p-2 my-2"
           />
@@ -92,8 +100,8 @@ function Signup() {
             id="password"
             name="password"
             placeholder="Enter your Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
             className="rounded-lg border-2 border-grey p-2 my-2"
           />

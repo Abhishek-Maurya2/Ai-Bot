@@ -13,7 +13,9 @@ const generateChatCompletion = async (req, res, next) => {
         .json({ message: "User not registered OR Token malfunctioned" });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({
+      model: process.env.GEMINI_MODEL_NAME,
+    });
     const prompt =
       "";
     const result = await model.generateContent(prompt + message);

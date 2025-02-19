@@ -26,6 +26,7 @@ const loginValidator = [
 
 const signupValidator = [
   body("name").notEmpty().withMessage("Name is required"),
+  body("profilePic").notEmpty().withMessage("Profile Picture is required"),
   ...loginValidator,
 ];
 

@@ -126,6 +126,7 @@ function DashBoardNav({ chat }) {
           <div className="w-full bg-[#0000005f]"></div>
         </div>
       )}
+
       {profileModal && (
         <div className="fixed right-[20px] top-[50px] min-w-[20rem] flex flex-col gap-2 items-center justify-center bg-zinc-800 max-w-[20vw] rounded-xl p-2 text-white">
           <div className="flex flex-row gap-2 items-center justify-between w-full">
@@ -142,9 +143,7 @@ function DashBoardNav({ chat }) {
             <div className="rounded-full w-[100px] h-[100px] overflow-hidden my-2">
               <img
                 className="w-full h-full object-cover"
-                src="
-              https://source.unsplash.com/random/300x200
-              "
+                src={auth.user.profilePic}
                 alt=""
               />
             </div>

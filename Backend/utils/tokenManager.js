@@ -6,14 +6,12 @@ const createToken = (id, email, expiresIn) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn,
   });
-  // console.log("TOKEN CREATED : ", token);
   return token;
 };
 
 const verifyToken = (req, res, next) => {
-  // const token = req.signedCookies[COOKIE_NAME];
+  const token = req.signedCookies[COOKIE_NAME];
   // get cookie from the request
-  const token = req.cookies[COOKIE_NAME];
   // console.log("\nTOKEN TO VERIFY : ", token, "\n")
   if (!token || token.trim() === "") {
     return res.status(401).json({ message: "Token Not Received in the verify Token", token: token, COOKIE_NAME: COOKIE_NAME});

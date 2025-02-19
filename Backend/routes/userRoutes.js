@@ -8,7 +8,11 @@ const {
 
 const { verifyToken } = require("../utils/tokenManager");
 
-const { loginValidator, signupValidator, validate } = require("../utils/validators");
+const {
+  loginValidator,
+  signupValidator,
+  validate,
+} = require("../utils/validators");
 
 const userRoutes = require("express").Router();
 
