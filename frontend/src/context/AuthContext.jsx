@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     async function checkStatus() {
       const data = await checkAuthStatus();
       if (data) {
-        setUser({ email: data.email, name: data.name });
+        setUser({ email: data.email, name: data.name, profilePic: data.profilePic });
         setIsLoggedIn(true);
       }
     }
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       setUser({ email: data.email, name: data.name, profilePic: data.profilePic });
       setIsLoggedIn(true);
       // transfer to the previous page
-      window.history.back();
+      // window.history.back();
     }
   };
   const logout = async () => {

@@ -2,7 +2,6 @@ const User = require("../models/User");
 const { hash, compare } = require("bcryptjs");
 const { createToken } = require("../utils/tokenManager");
 const COOKIE_NAME = require("../utils/constants");
-const { cookie } = require("express-validator");
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -20,7 +19,8 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const userSignup = async (req, res, next) => {``
+const userSignup = async (req, res, next) => {
+  ``;
   try {
     const { name, email, password, profilePic } = req.body;
 
@@ -106,8 +106,6 @@ const userLogin = async (req, res, next) => {
       name: user.name,
       email: user.email,
       profilePic: user.profilePic,
-      token: token,
-      cookie: COOKIE_NAME,
     });
   } catch (error) {
     // console.log(error);
@@ -127,7 +125,12 @@ const verifyUser = async (req, res, next) => {
     }
     return res
       .status(200)
-      .json({ message: "OK", name: user.name, email: user.email });
+      .json({
+        message: "OK",
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      });
   } catch (error) {
     console.log("Verify User: ", error);
     return res.status(200).json({ message: "ERROR", cause: error.message });

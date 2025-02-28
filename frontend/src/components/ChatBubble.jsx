@@ -5,9 +5,11 @@ import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import toast from "react-hot-toast";
 import "./dash.css";
 import Tooltip from "./Tooltip";
+import { useAuth } from "../context/AuthContext";
 
 function ChatBubble({ chat }) {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const auth = useAuth();
 
   const [like, setLike] = useState(false);
   const isLike = () => {
@@ -106,9 +108,9 @@ function ChatBubble({ chat }) {
         {/* query */}
         <div className="flex flex-col sm:flex-row-reverse gap-6 items-end sm:items-center py-4 px-4">
           <img
-            src="https://source.unsplash.com/random/40x40"
+            src={auth.user?.profilePic}
             alt="avatar"
-            className="rounded-full"
+            className="rounded-full w-6 h-6"
           />
           <p className="border-r-2 p-2">{chat.query}</p>
         </div>

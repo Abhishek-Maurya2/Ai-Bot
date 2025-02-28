@@ -14,7 +14,7 @@ const verifyToken = (req, res, next) => {
   // get cookie from the request
   // console.log("\nTOKEN TO VERIFY : ", token, "\n")
   if (!token || token.trim() === "") {
-    return res.status(401).json({ message: "Token Not Received in the verify Token", token: token, COOKIE_NAME: COOKIE_NAME});
+    return res.status(401).json({ message: "Token Not Received in the verify Token"});
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, success) => {

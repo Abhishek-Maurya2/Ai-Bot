@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiCrosshair, FiMenu, FiSearch, FiUser, FiX } from "react-icons/fi";
+import { FiMenu, FiUser, FiX } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import "./dash.css";
